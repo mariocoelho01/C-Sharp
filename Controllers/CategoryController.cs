@@ -1,4 +1,5 @@
 ﻿using Blog.Data;
+using Blog.Extensions;
 using Blog.Models;
 using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,10 @@ namespace Blog.CONTROLLERS
         {
             try
             {
-                var categories = await context.Categories.ToListAsync();
+                var categories = await context
+                .Categories
+                .ToListAsync();
+                
                 return Ok(new ResultViewModel<List<Category>>(categories));
             }
             catch
@@ -36,13 +40,13 @@ namespace Blog.CONTROLLERS
                     .FirstOrDefaultAsync(x=>x.Id == id);
 
                 if (category == null)
-                    return NotFound();
+                    return NotFound(new ResultViewModel<Category>("Content not found"));
             
-                return Ok(category);
+                return Ok(new ResultViewModel<Category>(category));
             }
             catch (Exception e)
             {
-                return StatusCode(500, "05X09 - Internal server failure");
+                return StatusCode(500,new ResultViewModel<Category>( "05X09 - Internal server failure"));
             }
         }
         
@@ -52,8 +56,10 @@ namespace Blog.CONTROLLERS
             [FromServices] BlogDataContext context)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
 
+           
+            
             try
             {
                 var category = new Category
