@@ -1,6 +1,7 @@
 using Blog.Data.Mappings;
 using Blog.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace Blog.Data
 {
@@ -19,7 +20,7 @@ namespace Blog.Data
         
         protected override void OnConfiguring(
             DbContextOptionsBuilder options)
-            => options.UseSqlite(connectionString: "DataSource=app.db;Cache=Shared");
+            => options.UseSqlServer("Server=localhost,1433;Database=mario;User ID=sa;Password=1q2w3e4r@#$");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -171,3 +171,4 @@ C:\dev\C-Sharp\obj\Debug\net6.0\refint\Blog.dll
 C:\dev\C-Sharp\obj\Debug\net6.0\Blog.pdb
 C:\dev\C-Sharp\obj\Debug\net6.0\Blog.genruntimeconfig.cache
 C:\dev\C-Sharp\obj\Debug\net6.0\ref\Blog.dll
+C:\dev\C-Sharp\bin\Debug\net6.0\global.json

@@ -58,8 +58,6 @@ namespace Blog.CONTROLLERS
             if (!ModelState.IsValid)
                 return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
 
-           
-            
             try
             {
                 var category = new Category
@@ -71,15 +69,16 @@ namespace Blog.CONTROLLERS
                 await context.Categories.AddAsync(category);
                 await context.SaveChangesAsync();
 
-                return Created($"v1/categories/{category.Id}", category);
+                return Created($"v1/categories/{category.Id}", new ResultViewModel<Category>(category));
             }
-            catch (DbUpdateException e)
+            catch (DbUpdateException ex)
+          
             {
-                return StatusCode(500, "05XD1 - it was not possible to include the category");
+                return StatusCode(500,   new ResultViewModel<Category>("05XD1 - it was not possible to include the category"));
             }
-            catch (Exception e)
+            catch
             {
-                return StatusCode(500, "05X10 - Internal server failure");
+                return StatusCode(500, new ResultViewModel<Category>("05X10 - Internal server failure"));
             }
         }
         
@@ -94,7 +93,7 @@ namespace Blog.CONTROLLERS
                 var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
 
                 if (category == null)
-                    return NotFound();
+                    return NotFound(new ResultViewModel<Category>("Content not found"));
 
                 category.Name = model.Name;
                 category.Slug = model.Slug;
@@ -102,15 +101,15 @@ namespace Blog.CONTROLLERS
                 context.Categories.Update(category);
                 await context.SaveChangesAsync();
 
-                return Ok(model);
+                return Ok(new ResultViewModel<Category>(category));
             }
-            catch (DbUpdateException e)
+            catch (DbUpdateException ex)
             {
-                return StatusCode(500, "05XD2 - it was not possible to changed the category");
+                return StatusCode(500, new ResultViewModel<Category>("05XD2 - it was not possible to changed the category"));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return StatusCode(500, "05X11 - Internal server failure");
+                return StatusCode(500, new ResultViewModel<Category>("05X11 - Internal server failure"));
             }
         }
         
@@ -124,20 +123,20 @@ namespace Blog.CONTROLLERS
                 var category = context.Categories.FirstOrDefault(x => x.Id == id);
 
                 if (category == null)
-                    return NotFound();
+                    return NotFound(new ResultViewModel<Category>("Content not found"));
 
                 context.Categories.Remove(category);
                 await context.SaveChangesAsync();
 
-                return Ok(category);
+                return Ok(new ResultViewModel<Category>(category));
             }
             catch (DbUpdateException e)
             {
-                return StatusCode(500, "05XD3 - it was not possible to deleted the category");
+                return StatusCode(500, new ResultViewModel<Category>("05XD3 - it was not possible to deleted the category"));
             }
             catch (Exception e)
             {
-                return StatusCode(500, "05X12 - Internal server failure");
+                return StatusCode(500, new ResultViewModel<Category>("05X12 - Internal server failure"));
             }
         }
       
