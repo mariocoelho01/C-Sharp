@@ -172,3 +172,8 @@ C:\dev\C-Sharp\obj\Debug\net6.0\Blog.pdb
 C:\dev\C-Sharp\obj\Debug\net6.0\Blog.genruntimeconfig.cache
 C:\dev\C-Sharp\obj\Debug\net6.0\ref\Blog.dll
 C:\dev\C-Sharp\bin\Debug\net6.0\global.json
+C:\dev\C-Sharp\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\dev\C-Sharp\bin\Debug\net6.0\SecureIdentity.dll
+C:\dev\C-Sharp\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\dev\C-Sharp\bin\Debug\net6.0\SendGrid.dll
+C:\dev\C-Sharp\bin\Debug\net6.0\StarkbankEcdsa.dll

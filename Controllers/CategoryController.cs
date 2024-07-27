@@ -14,6 +14,7 @@ namespace Blog.CONTROLLERS
         public async Task<IActionResult> GetAsync(
             [FromServices] BlogDataContext context)
         {
+            User.IsInRole("admin");
             try
             {
                 var categories = await context

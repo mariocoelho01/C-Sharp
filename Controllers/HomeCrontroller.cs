@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Blog.Attributes;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 namespace Blog.Controllers
 {
     [ApiController]
@@ -6,6 +8,7 @@ namespace Blog.Controllers
     public class HomeController : ControllerBase
     {
         [HttpGet("")]
+        //[ApiKey] only for when passing KeyApi in url
         public IActionResult Get()
             => Ok(new { Active = "on" });
     }

@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -14,10 +16,21 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0" />
+    <PackageReference Include="SecureIdentity" Version="1.0.4" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Migrations" />
+    <Folder Include="wwwroot\imagens" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20211025160407_CreateDatabase.cs" />
+    <Compile Remove="Migrations\20211025160407_CreateDatabase.Designer.cs" />
+    <Compile Remove="Migrations\BlogDataContextModelSnapshot.cs" />
+    <Compile Remove="Migrations\20240523014510_initial.cs" />
+    <Compile Remove="Migrations\20240523014510_initial.Designer.cs" />
   </ItemGroup>
 
 </Project>
