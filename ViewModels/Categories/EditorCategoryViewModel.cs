@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Blog.Data;
 
-namespace Blog.ViewModels;
+namespace Blog.ViewModels.Categories;
 
 public class EditorCategoryViewModel
 {
