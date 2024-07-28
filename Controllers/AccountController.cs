@@ -1,9 +1,11 @@
+using System.Text.RegularExpressions;
 using Blog.Data;
 using Blog.Extensions;
 using Blog.Models;
 using Blog.Services;
 using Blog.ViewModels;
 using Blog.ViewModels.Accounts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecureIdentity.Password;
@@ -99,6 +101,44 @@ public class AccountController : ControllerBase
             return StatusCode(500, new ResultViewModel<string>("05X04 - Internal fault "));
         }
     }
-    
-    
+
+    [Authorize]
+    [HttpPost("v1/accounts/upload-image")]
+    public async Task<IActionResult> UploadImage(
+        [FromBody] UploadImageViewModel model,
+        [FromServices] BlogDataContext context)
+    {
+        var fileName = $"{Guid.NewGuid().ToString()}.jpg";
+        var data = new Regex(@"^data:image\/[a-z]+;base64,")
+            .Replace(model.Base64Image, "");
+        var bytes = Convert.FromBase64String(data);
+
+        try
+        {
+            await System.IO.File.WriteAllBytesAsync($"wwwroot/images/{fileName}", bytes);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ResultViewModel<string>("05x04 - Internal serve failure!"));
+        }
+
+        var user = await context.Users
+            .FirstOrDefaultAsync(x => x.Email == User.Identity.Name);//Change the currently logged in user
+
+        if (user == null)
+            return NotFound(new ResultViewModel<Category>("User not found"));
+
+        user.Image = $"https://localhost:0000/images/{fileName}";//just for test
+        try
+        {
+            context.Users.Update(user);
+            await context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ResultViewModel<string>("05x04 - internal server failure"));
+        }
+
+        return Ok(new ResultViewModel<string>("Image changed successfully"));
+    }
 }
