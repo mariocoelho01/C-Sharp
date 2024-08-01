@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using Blog;
 using Blog.Data;
 using Blog.Services;
@@ -15,6 +16,7 @@ ConfigureServices(builder);
 var app = builder.Build();
 
 LoadConfiguration(app);
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();//allows api to manipulate static files
@@ -48,11 +50,18 @@ void ConfigureAuthentication(WebApplicationBuilder builder){
 
 void ConfigureMvc(WebApplicationBuilder builder)
 {
-    builder.Services.AddControllers().ConfigureApiBehaviorOptions(options => 
+    builder
+        .Services
+        .AddControllers()
+        .ConfigureApiBehaviorOptions(options => 
     {
         options.SuppressModelStateInvalidFilter= true;
-    });//Add MVC, disable automatic authentication model status
-
+    })//Add MVC, disable automatic authentication model status
+        .AddJsonOptions(x =>
+        {
+            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+        });
 }
 
 void ConfigureServices(WebApplicationBuilder builder)

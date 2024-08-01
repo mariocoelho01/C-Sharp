@@ -115,7 +115,7 @@ public class AccountController : ControllerBase
 
         try
         {
-            await System.IO.File.WriteAllBytesAsync($"wwwroot/images/{fileName}", bytes);
+            await System.IO.File.WriteAllBytesAsync($"wwwroot/imagens/{fileName}", bytes);
         }
         catch (Exception ex)
         {
@@ -138,7 +138,6 @@ public class AccountController : ControllerBase
         {
             return StatusCode(500, new ResultViewModel<string>("05x04 - internal server failure"));
         }
-
         return Ok(new ResultViewModel<string>("Image changed successfully"));
     }
 }
