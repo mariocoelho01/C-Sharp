@@ -6,6 +6,7 @@ using Blog.Data;
 using Blog.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 
@@ -55,7 +56,7 @@ void ConfigureMvc(WebApplicationBuilder builder)
     builder.Services.AddMemoryCache();
     
     builder.Services.AddResponseCompression(options =>
-    {
+    {   
         options.Providers.Add<GzipCompressionProvider>();
     });
     builder.Services.Configure<GzipCompressionProviderOptions>(options =>
@@ -79,7 +80,9 @@ void ConfigureMvc(WebApplicationBuilder builder)
 
 void ConfigureServices(WebApplicationBuilder builder)
 {
-    builder.Services.AddDbContext<BlogDataContext>();//Add DataContext
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    builder.Services.AddDbContext<BlogDataContext>(options =>
+        options.UseSqlServer(connectionString)); ;//Add DataContext
     builder.Services.AddTransient<TokenServices>(); //always creates a new 
     builder.Services.AddTransient<EmailService>();
 }
